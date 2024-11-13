@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import MainScreen from "../../components/MainScreen";
 import { Link } from "react-router-dom";
 import { Accordion, Badge, Button, Card } from "react-bootstrap";
-import { notes } from "../../../../backend/data/data.js";
+
 import axios from "axios";
 
 const Mynotes = () => {

@@ -1,8 +1,8 @@
 import express from "express";
-import { notes } from "./data/data.js";
+import { notes } from "./utils/data.js"
 import dotenv from "dotenv";
 import connectDB from "./database/db.js";
-
+import routers from "./router/userRoutes.js";
 
 
 dotenv.config();
@@ -10,11 +10,14 @@ dotenv.config();
 const app = express();
 
 connectDB();
+app.use(express.json());
+// app.get("/api/notes", (req, res) => {
+//   res.send(notes);
+// });
+
+app.use("/api/user",routers)
 
 
-app.get("/api/notes", (req, res) => {
-  res.send(notes);
-});
 
 const PORT =process.env.PORT || 5000;
 app.listen(PORT,() => {
