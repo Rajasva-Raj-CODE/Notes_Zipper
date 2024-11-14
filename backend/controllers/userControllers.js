@@ -17,7 +17,7 @@ const registerUser = asyncHandler(async (req, res) => {
         isAdmin: Newuser.isAdmin,
         pic: Newuser.pic,
         success: true,
-        message: "User Created Successfully",
+        message: "User Created Successfull",
       });
     } else {
       res.status(500).json({ success: false, message: "Error creating user" });
