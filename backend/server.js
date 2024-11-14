@@ -10,10 +10,9 @@ dotenv.config();
 const app = express();
 
 connectDB();
+
 app.use(express.json());
-// app.get("/api/notes", (req, res) => {
-//   res.send(notes);
-// });
+
 
 app.use("/api/user",routers)
 
