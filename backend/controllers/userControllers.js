@@ -30,4 +30,25 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser };
+const aurthorizeUser = asyncHandler(async (req, res) => {
+  const {email,password} = req.body
+  const user= await userModel.findOne({email})
+  if(user && (await user.matchPassword(password))){
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      pic: user.pic,
+      success: true,
+      message: "User Logged In Successfully",
+    });
+  }
+  else{
+    res.status(400).json({
+      success: false,
+      message: "Invalid Credentials",
+    });
+  }
+});
+export { registerUser, aurthorizeUser };
