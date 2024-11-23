@@ -1,5 +1,7 @@
 import userModel from "../model/userModel.js";
 import asyncHandler from "express-async-handler";
+import generateToken from "../utils/generateToken.js";
+
 
 const registerUser = asyncHandler(async (req, res) => {
   try {
@@ -16,6 +18,7 @@ const registerUser = asyncHandler(async (req, res) => {
         email: Newuser.email,
         isAdmin: Newuser.isAdmin,
         pic: Newuser.pic,
+        token: generateToken(Newuser._id),
         success: true,
         message: "User Created Successfull",
       });
@@ -40,6 +43,7 @@ const aurthorizeUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       pic: user.pic,
+      token: generateToken(user._id),
       success: true,
       message: "User Logged In Successfully",
     });
