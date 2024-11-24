@@ -1,6 +1,6 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import "./RegisterScreen.css";
-import { Form, Button, Row, Col,} from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import MainScreen from "../../components/MainScreen";
@@ -52,6 +52,35 @@ const RegisterScreen = () => {
     }
   };
 
+  const postDetails = (pics) => {
+    if (!pics) {
+      return setPicMessage("Please upload a profile picture");
+    }
+    setPicMessage(null);
+
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "NoteZipper");
+      data.append("cloud_name", "dtgq9q5bp");
+      fetch("https://api.cloudinary.com/v1_1/dtgq9q5bp/image/upload", {
+        method: "POST",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setPic(data.url.toString());
+        })
+        .catch((err) => {
+          console.log(err);
+          setPicMessage(err.message);
+        });
+    } else {
+      return setPicMessage("Please Select an Image");
+    }
+  };
+
   return (
     <MainScreen title="REGISTER">
       <div className="loginContainer">
@@ -99,16 +128,19 @@ const RegisterScreen = () => {
             />
           </Form.Group>
 
-          {/* <Form.Group controlId="pic">
+          {picMessage && (
+            <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
+          )}
+          <Form.Group controlId="pic">
             <Form.Label>Profile Picture</Form.Label>
-            <Form.File
-              // onChange={(e) => postDetails(e.target.files[0])}
+            <Form.Control
+              onChange={(e) => postDetails(e.target.files[0])}
               id="custom-file"
-              type="image/png"
+              type="file"
               label="Upload Profile Picture"
               custom
             />
-          </Form.Group> */}
+          </Form.Group>
 
           <Button variant="primary" type="submit">
             Register
